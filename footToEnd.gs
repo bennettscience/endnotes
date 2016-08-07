@@ -8,8 +8,7 @@ function onOpen() {
   
   ui.createMenu("Create Endnotes")
     .addItem('Run', 'newEnd')
-    .addItem('Testing', 'replaceNotes')
-  .addToUi();
+    .addToUi();
 }
 
 // Break a new page at the end of the document 
