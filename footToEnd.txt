@@ -8,6 +8,7 @@ function onOpen() {
   
   ui.createMenu("Create Endnotes")
     .addItem('Run', 'newEnd')
+    .addItem('Testing', 'replaceNotes')
   .addToUi();
 }
 
@@ -44,9 +45,18 @@ function replaceNotes() {
   var note = 1;
   for(var i = 0; i < notes.length; i++){
     var getNote = notes[i].getPreviousSibling().editAsText();
-    var length = getNote.getText().length;
-    var sup = getNote.insertText(length, note++);
-    sup.editAsText().setTextAlignment(length, length, DocumentApp.TextAlignment.SUPERSCRIPT);
+    var length = notes[i].getPreviousSibling().editAsText().getText().length;
+    var sup = getNote.insertText(length, (note++).toString());
+    
+    // Check that the footnote isn't double-digit. If it is, reset the index used to set the formatting
+    if(note >= 11) {
+      var newLength = sup.getText().length;
+      Logger.log("length = " + length + ", newLength = " + newLength);
+      sup.editAsText().setTextAlignment(length, newLength-1, DocumentApp.TextAlignment.SUPERSCRIPT);
+    } 
+      else {
+      sup.editAsText().setTextAlignment(length, length, DocumentApp.TextAlignment.SUPERSCRIPT);
+    }
   }
   deleteNotes();
 }
