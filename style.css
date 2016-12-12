@@ -46,6 +46,14 @@ html, body {
   line-height:1;
 }
 
+.comment img {
+  position:relative;
+  width:36px;
+  height:auto;
+  border-bottom:3px solid #888;
+  margin:5px 0 -5px 0;
+}
+
 #one.comment {
   top: 160px;
 }
