@@ -1,0 +1,29 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: rgb(235,235,235);
+  overflow-y: hidden;
+}
+
+#main-wrap {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+#content-main {
+  width: 70%;
+  margin: 10px auto;
+  background-color: #fff;
+  box-shadow: 1px 0 2px #888;
+  display: block;
+  position: relative;
+  height: 95%;
+}
+
+.section {
+  padding:10px;
+}
