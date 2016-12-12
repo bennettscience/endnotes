@@ -3,7 +3,7 @@ html, body {
   padding: 0;
   height: 100%;
   background-color: rgb(235,235,235);
-  overflow-y: hidden;
+  font-family:sans-serif;
 }
 
 #main-wrap {
@@ -15,15 +15,18 @@ html, body {
 }
 
 #content-main {
-  width: 70%;
+  width: 50%;
   margin: 10px auto;
   background-color: #fff;
   box-shadow: 1px 0 2px #888;
   display: block;
   position: relative;
-  height: 95%;
+  height: auto;
+  padding: 20px 0;
 }
 
 .section {
-  padding:10px;
+  width:80%;
+  margin-left:35px;
+  position:relative;
 }
