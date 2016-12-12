@@ -16,7 +16,7 @@ html, body {
 
 #content-main {
   width: 50%;
-  margin: 10px auto;
+  margin: 10px 10%;
   background-color: #fff;
   box-shadow: 1px 0 2px #888;
   display: block;
@@ -26,7 +26,29 @@ html, body {
 }
 
 .section {
-  width:80%;
   margin-left:35px;
   position:relative;
+}
+
+.highlight {
+  background-color:rgb(204,255,51);
+  background-color:rgba(204,255,51,0.5);
+}
+
+.comment {
+  position:absolute;
+  right:20%;
+  margin:0;
+  background-color:#fff;
+  box-shadow:0 1px 3px #888;
+  font-size:14px;
+  width:240px;
+}
+
+#one.comment {
+  top: 180px;
+}
+
+#two.comment {
+  bottom:-60px;
 }
