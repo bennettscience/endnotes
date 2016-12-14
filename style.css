@@ -46,6 +46,12 @@ html, body {
   position:relative;
 }
 
+.section video {
+  width:100%;
+  height:auto;
+  box-shadow:0 0 2px rgb(135,135,135);
+}
+
 sup {
   font-size:10px;
 }
