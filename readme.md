@@ -29,6 +29,8 @@ If you want to install and run **on a single document**, do the following:
 5. Reload your document.
 6. There is a new menu item called "Create Endnotes." Use it to run the script.
 
+You can still grab the `footToEnd.gs` file and run it on a single document using the Script Editor.
+
 Known issues
 ===
 - It only loops through `paragraph` elements in the doc, so if you have a footnote on an image, it's going to throw an error.
