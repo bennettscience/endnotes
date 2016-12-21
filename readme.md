@@ -16,6 +16,8 @@ If you want to install and test, do the following:
 5. Click on **Publish > Test as add on**
 6. Change the isntall configuration to **Test with latest version** and **Installed and enabled**. Select a document and click Save.
 
+You can still grab the `footToEnd.gs` file and run it on a single document using the Script Editor.
+
 Known issues
 ===
 - It only loops through `paragraph` elements in the doc, so if you have a footnote on an image, it's going to throw an error.
