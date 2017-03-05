@@ -11,7 +11,7 @@ function onOpen() {
     .addToUi();
 }
 
-// Break a new page at the end of the document 
+// Break a new page at the end of the document
 // Add "Endnotes" title section
 // Copy footnote contents into the new section as a numbered list
 function newEnd() {
@@ -28,7 +28,7 @@ function newEnd() {
 }
 
 // Clears footnotes from the document.
-function deleteNotes(){  
+function deleteNotes(){
   var body = DocumentApp.getActiveDocument().getBody();
   var footnote = DocumentApp.getActiveDocument().getFootnotes();
   
@@ -52,7 +52,7 @@ function replaceNotes() {
       var newLength = sup.getText().length;
       Logger.log("length = " + length + ", newLength = " + newLength);
       sup.editAsText().setTextAlignment(length, newLength-1, DocumentApp.TextAlignment.SUPERSCRIPT);
-    } 
+    }
       else {
       sup.editAsText().setTextAlignment(length, length, DocumentApp.TextAlignment.SUPERSCRIPT);
     }

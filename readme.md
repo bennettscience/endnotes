@@ -5,16 +5,25 @@ This Google Apps script looks for existing footnotes in a doc and creates an end
 
 Use
 ===
-This is a Google Docs AddOn, so it's easiest to add from the AddOns store in Drive.
+This is a Google Docs AddOn, so it's easiest to [add from the AddOns store in Drive](https://chrome.google.com/webstore/detail/endnote-generator/nmhebcalinkmgflgcfapknjhbliebooc).
 
-If you want to install and test, do the following:
+Current Version
+===
+**Published** - AddOn v0.4 - bug fix to repair the "Run" menu not appearing.
+
+v0.1 - AddOn published
+
+Other Uses
+===
+
+If you want to install and run **on a single document**, do the following:
 
 1. Open the document you'd like to create endnotes in.
 2. Go to **Tools > Script Editor** and delete the default `function` text in the editor.
 3. Copy the `footToEnd.gs` script and paste it into the editor.
-4. Create a new HTML file in the editor and title it `index`.
-5. Click on **Publish > Test as add on**
-6. Change the isntall configuration to **Test with latest version** and **Installed and enabled**. Select a document and click Save.
+4. Name the script "Endnotes", save the file, and close the tab.
+5. Reload your document.
+6. There is a new menu item called "Create Endnotes." Use it to run the script.
 
 Known issues
 ===
