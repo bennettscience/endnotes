@@ -44,9 +44,7 @@ function replaceNotes(hasNotes) {
 
   for(var i = 0; i < footnotes.length; i++){
     var count = footnotes[i];
-    Logger.log(count);
     var getNote = footnotes[i].getPreviousSibling();
-    Logger.log(getNote);
     if(getNote.getType() == DocumentApp.ElementType.INLINE_IMAGE) {
       footnotes[i].getParent().insertText(footnotes[i].getParent().asParagraph().getNumChildren(), (note++).toString()).setTextAlignment(DocumentApp.TextAlignment.SUPERSCRIPT);
     } else {
