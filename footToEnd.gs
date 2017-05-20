@@ -7,23 +7,30 @@ function onOpen() {
   var ui = DocumentApp.getUi();
   
   ui.createMenu("Create Endnotes")
-    .addItem('Run', 'newEnd')
+    .addItem('Run', 'newEndnotes')
     .addToUi();
 }
 
 // Break a new page at the end of the document
 // Add "Endnotes" title section
 // Copy footnote contents into the new section as a numbered list
-function newEnd() {
+function newEndnotes() {
   
-  body.appendPageBreak();
-  body.appendParagraph('Endnotes').setHeading(DocumentApp.ParagraphHeading.HEADING1);
+  // Get the document and body
+  var doc = DocumentApp.getActiveDocument();
+  var body = doc.getBody();
+  var props = PropertiesService.getDocumentProperties();
   
-  var footnote = doc.getFootnotes();
-  
-  for(var i in footnote){
-    doc.getBody().appendListItem(footnote[i].getFootnoteContents().copy().getText());
-  }
+  // Check for stored endnotes existing in the doc. If false, start a new section
+      var footnotes = doc.getFootnotes();
+      body.appendPageBreak();
+      body.appendParagraph('Endnotes').setHeading(DocumentApp.ParagraphHeading.HEADING1);
+      for(var i=0; i<footnotes.length;i++) {
+        var note = footnotes[i].getFootnoteContents();
+        var text = note.getChild(0).copy();
+        var par = body.appendParagraph(text);
+        par.insertText(0, (i+1) + ". ").setBold(false).setItalic(false).setUnderline(false);
+      }
   replaceNotes();
 }
 
