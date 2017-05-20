@@ -31,6 +31,8 @@ If you want to install and run **on a single document**, do the following:
 
 You can still grab the `footToEnd.gs` file and run it on a single document using the Script Editor.
 
+You can still grab the `footToEnd.gs` file and run it on a single document using the Script Editor.
+
 Known issues
 ===
 - It only loops through `paragraph` elements in the doc, so if you have a footnote on an image, it's going to throw an error.
