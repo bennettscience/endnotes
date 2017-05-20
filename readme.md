@@ -9,7 +9,9 @@ This is a Google Docs AddOn, so it's easiest to [add from the AddOns store in Dr
 
 Current Version
 ===
-**Published** - AddOn v0.4 - bug fix to repair the "Run" menu not appearing.
+**Published** - v0.4.7 - Endnotes now retain formatting.
+
+AddOn v0.4 - bug fix to repair the "Run" menu not appearing.
 
 v0.1 - AddOn published
 
