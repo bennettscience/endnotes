@@ -22,15 +22,18 @@ function newEndnotes() {
   var props = PropertiesService.getDocumentProperties();
 
   // Check for stored endnotes existing in the doc. If false, start a new section
-      var footnotes = doc.getFootnotes();
-      body.appendPageBreak();
-      body.appendParagraph('Endnotes').setHeading(DocumentApp.ParagraphHeading.HEADING1);
-      for(var i=0; i<footnotes.length;i++) {
-        var note = footnotes[i].getFootnoteContents();
-        var text = note.getChild(0).copy();
-        var par = body.appendParagraph(text);
-        par.insertText(0, (i+1) + ". ").setBold(false).setItalic(false).setUnderline(false);
-      }
+  var footnotes = doc.getFootnotes();
+  body.appendPageBreak();
+  body.appendParagraph('Endnotes').setHeading(DocumentApp.ParagraphHeading.HEADING1);
+  for(var i=0; i<footnotes.length;i++) {
+    var note = footnotes[i].getFootnoteContents();
+    var text = note.getChild(0).copy();
+    var bookmark = doc.addBookmark(doc.newPosition(footnotes[i].getParent(), 0));
+    var paragraph = body.appendParagraph(text);
+    paragraph.insertText(0, (i+1) + ". ")
+      .setBold(false).setItalic(false).setUnderline(false)
+      .setLinkUrl("#bookmark="+bookmark.getId());
+  }
   replaceNotes();
 }
 
@@ -46,13 +49,15 @@ function replaceNotes(hasNotes) {
     var count = footnotes[i];
     var getNote = footnotes[i].getPreviousSibling();
     if(getNote.getType() == DocumentApp.ElementType.INLINE_IMAGE) {
-      footnotes[i].getParent().insertText(footnotes[i].getParent().asParagraph().getNumChildren(), (note++).toString()).setTextAlignment(DocumentApp.TextAlignment.SUPERSCRIPT);
+      footnotes[i].getParent()
+        .insertText(footnotes[i].getParent().asParagraph().getNumChildren(), (note++).toString())
+        .setTextAlignment(DocumentApp.TextAlignment.SUPERSCRIPT);
     } else {
       getNote = footnotes[i].getPreviousSibling().editAsText();
       var length = footnotes[i].getPreviousSibling().editAsText().getText().length;
       var sup = getNote.insertText(length, (note++).toString());
     }
-    // Check that the footnote isn't double-digit. If it is, reset the index used to set the formatting
+    // Check that the footnote is not double-digit. If it is, reset the index used to set the formatting
     if(note >= 11) {
       var newLength = sup.getText().length;
       sup.editAsText().setTextAlignment(length, newLength-1, DocumentApp.TextAlignment.SUPERSCRIPT);
@@ -63,3 +68,4 @@ function replaceNotes(hasNotes) {
     footnotes[i].removeFromParent();
   }
 }
+
