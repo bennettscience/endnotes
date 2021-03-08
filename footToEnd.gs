@@ -1,71 +1,46 @@
-// Get the document and body
+// globals
 var doc = DocumentApp.getActiveDocument();
-var body = DocumentApp.getActiveDocument().getBody();
+var body = doc.getBody();
 
 // Add the custom menu
 function onOpen() {
-  var ui = DocumentApp.getUi();
-
-  ui.createMenu("Create Endnotes")
-    .addItem('Run', 'newEndnotes')
-    .addToUi();
+  DocumentApp.getUi().createMenu("Create Endnotes")
+    .addItem('Run', 'newEndnotes').addToUi();
 }
 
 // Break a new page at the end of the document
 // Add "Endnotes" title section
 // Copy footnote contents into the new section as a numbered list
+// Add cross reference for each entry
 function newEndnotes() {
-
-  // Get the document and body
-  var doc = DocumentApp.getActiveDocument();
-  var body = doc.getBody();
-  var props = PropertiesService.getDocumentProperties();
-
-  // Check for stored endnotes existing in the doc. If false, start a new section
   var footnotes = doc.getFootnotes();
-  body.appendPageBreak();
   body.appendParagraph('Endnotes').setHeading(DocumentApp.ParagraphHeading.HEADING1);
   for(var i=0; i<footnotes.length;i++) {
-    var note = footnotes[i].getFootnoteContents();
-    var text = note.getChild(0).copy();
-    var bookmark = doc.addBookmark(doc.newPosition(footnotes[i].getParent(), 0));
-    var paragraph = body.appendParagraph(text);
-    paragraph.insertText(0, (i+1) + ". ")
-      .setBold(false).setItalic(false).setUnderline(false)
-      .setLinkUrl("#bookmark="+bookmark.getId());
-  }
-  replaceNotes();
-}
-
-// Replaces note superscript where the old footnote was located.
-function replaceNotes(hasNotes) {
-  var doc = DocumentApp.getActiveDocument();
-  var body = doc.getBody();
-  var pars = body.getParagraphs();
-  var footnotes = doc.getFootnotes();
-  var note = 1;
-
-  for(var i = 0; i < footnotes.length; i++){
-    var count = footnotes[i];
-    var getNote = footnotes[i].getPreviousSibling();
-    if(getNote.getType() == DocumentApp.ElementType.INLINE_IMAGE) {
-      footnotes[i].getParent()
-        .insertText(footnotes[i].getParent().asParagraph().getNumChildren(), (note++).toString())
-        .setTextAlignment(DocumentApp.TextAlignment.SUPERSCRIPT);
-    } else {
-      getNote = footnotes[i].getPreviousSibling().editAsText();
-      var length = footnotes[i].getPreviousSibling().editAsText().getText().length;
-      var sup = getNote.insertText(length, (note++).toString());
-    }
-    // Check that the footnote is not double-digit. If it is, reset the index used to set the formatting
-    if(note >= 11) {
-      var newLength = sup.getText().length;
-      sup.editAsText().setTextAlignment(length, newLength-1, DocumentApp.TextAlignment.SUPERSCRIPT);
-    }
-    else {
-      sup.editAsText().setTextAlignment(length, length, DocumentApp.TextAlignment.SUPERSCRIPT);
-    }
+    replaceNote(footnotes[i], (i+1).toString());
     footnotes[i].removeFromParent();
   }
 }
 
+// Create bookmarks for both the endnote and endnote contents, then add mutual links
+function replaceNote(footnote, sn) {
+    var getNote = footnote.getPreviousSibling();
+    if(getNote.getType() == DocumentApp.ElementType.INLINE_IMAGE) {
+      var supStart = 0;
+      var sup = getNote.getParent().appendText(sn);
+    } else {
+      var supStart = getNote.getText().length;
+      var sup = getNote.appendText(sn);
+    }
+    var newLength = sup.getText().length;
+    sup.editAsText().setTextAlignment(supStart, newLength-1, DocumentApp.TextAlignment.SUPERSCRIPT);
+    var bookmark = doc.addBookmark(doc.newPosition(sup, 0));
+
+    var note = footnote.getFootnoteContents();
+    var text = note.getChild(0).copy();
+    var paragraph = body.appendParagraph(text);
+    paragraph.insertText(0, sn + ". ")
+      .setBold(false).setItalic(false).setUnderline(false)
+      .setLinkUrl(0, sn.length-1, "#bookmark="+bookmark.getId());
+    var endnoteBookmark = doc.addBookmark(doc.newPosition(paragraph, 0));
+    sup.editAsText().setLinkUrl(supStart, newLength-1, "#bookmark="+endnoteBookmark.getId());
+}
